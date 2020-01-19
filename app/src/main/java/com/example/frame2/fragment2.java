@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class fragment2 extends Fragment {
 
     private static final String moovei_bandel_string = "moovei string";
     private datamoovei data;
+    private Button bbb;
 
     private ImageView imageView1;
     private ImageView imageView2;
@@ -33,20 +35,21 @@ public class fragment2 extends Fragment {
         return f2;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        data = getArguments().getParcelable(moovei_bandel_string);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View vveiw = inflater.inflate(R.layout.farm2, container, false);
         initveiw(vveiw);
+        Log.d("string",data.getText());
         if (data != null){
-            setdata();
+            setdata(vveiw);
+            Log.d("string",data.getText());
         }
         return vveiw;
-    }
-
-    private void setdata() {
-        imageView1.setImageResource(data.getImeg());
-        imageView2.setImageResource(data.getImeg());
-        titel.setText(data.getTitel());
-        ttext.setText(data.getText());
     }
 
     private void initveiw(View vveiw) {
@@ -54,22 +57,24 @@ public class fragment2 extends Fragment {
         imageView2 = vveiw.findViewById(R.id.imeg2);
         titel = vveiw.findViewById(R.id.titel);
         ttext = vveiw.findViewById(R.id.textt);
+        bbb = vveiw.findViewById(R.id.f2_butun);
 
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        data = getArguments().getParcelable(moovei_bandel_string);
+    private void setdata(View vveiw) {
+        imageView1.setImageResource(data.getImeg());
+        imageView2.setImageResource(data.getImeg());
+        titel.setText(data.getTitel());
+        ttext.setText(data.getText());
+
+        bbb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getUrl()));
+                startActivity(intent);
+            }
+        });
     }
 
-    public void moov (View view) {
-        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!","llllllllllllllllllllllllllllllllll");
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=dFZHMHjdB8w"));
-        startActivity(intent);
-    }
-//    public void moovTo (View v){
-//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=UND7XDWgLF0"));
-//        startActivity(intent);
-//    }
+
 }

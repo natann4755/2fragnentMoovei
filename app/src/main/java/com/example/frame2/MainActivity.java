@@ -2,12 +2,15 @@ package com.example.frame2;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements OnMovieFragmentClickListener {
+
+    private FrameLayout tabletframeLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieFragmentCl
 
         mooveiFragment fragmentmoovei =new mooveiFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.AM_FrameLayout ,fragmentmoovei).commit();
+        tabletframeLayout = findViewById(R.id.AM_F2_FrameLayout2);
 
 
     }
@@ -42,9 +46,17 @@ public class MainActivity extends AppCompatActivity implements OnMovieFragmentCl
     @Override
     public void OnMooveiClicked(datamoovei moovei) {
         fragment2 f2 = fragment2.newIntent(moovei);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.AM_FrameLayout ,f2).commit();
+        if (tabletframeLayout==null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.AM_FrameLayout, f2).commit();
+        }
+        else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.AM_F2_FrameLayout2,f2).commit();
+        }
     }
 }
